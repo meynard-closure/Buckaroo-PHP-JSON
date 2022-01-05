@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Tests;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Tests\Integration;
 
 use SeBuDesign\BuckarooJson\Helpers\StatusCodeHelper;
 use SeBuDesign\BuckarooJson\Responses\TransactionResponse;
@@ -58,8 +60,6 @@ class GetTransactionTest extends TestCase
             );
         }
     }
-
-
 
     /** @test */
     public function it_should_get_multiple_transactions_by_invoice()

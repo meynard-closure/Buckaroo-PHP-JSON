@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Helpers;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Helpers;
 
 class StatusCodeHelper
 {
@@ -24,7 +26,7 @@ class StatusCodeHelper
      *
      * @return bool
      */
-    public static function isSuccessful($iStatusCode)
+    public static function isSuccessful(int $iStatusCode): bool
     {
         return $iStatusCode == self::STATUS_SUCCESS;
     }
@@ -36,7 +38,7 @@ class StatusCodeHelper
      *
      * @return bool
      */
-    public static function isRejected($iStatusCode)
+    public static function isRejected(int $iStatusCode): bool
     {
         return $iStatusCode == self::STATUS_REJECTED;
     }
@@ -48,7 +50,7 @@ class StatusCodeHelper
      *
      * @return bool
      */
-    public static function isPending($iStatusCode)
+    public static function isPending(int $iStatusCode): bool
     {
         return in_array($iStatusCode, [
             self::STATUS_AWAITING_INPUT,
@@ -65,7 +67,7 @@ class StatusCodeHelper
      *
      * @return bool
      */
-    public static function isFailed($iStatusCode)
+    public static function isFailed(int $iStatusCode): bool
     {
         return in_array($iStatusCode, [
             self::STATUS_FAILED,
@@ -81,7 +83,7 @@ class StatusCodeHelper
      *
      * @return bool
      */
-    public static function isCancelled($iStatusCode)
+    public static function isCancelled(int $iStatusCode): bool
     {
         return in_array($iStatusCode, [
             self::STATUS_CANCELLED_BY_USER,
@@ -96,7 +98,7 @@ class StatusCodeHelper
      *
      * @return bool
      */
-    public static function isPermanentStatus($iStatusCode)
+    public static function isPermanentStatus(int $iStatusCode): bool
     {
         return in_array($iStatusCode, [
             self::STATUS_SUCCESS,
@@ -116,7 +118,7 @@ class StatusCodeHelper
      *
      * @return bool
      */
-    public static function isTemporaryStatus($iStatusCode)
+    public static function isTemporaryStatus(int $iStatusCode): bool
     {
         return in_array($iStatusCode, [
             self::STATUS_AWAITING_INPUT,

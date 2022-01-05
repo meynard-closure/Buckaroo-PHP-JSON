@@ -1,5 +1,6 @@
 <?php namespace SeBuDesign\BuckarooJson;
 
+use GuzzleHttp\Exception\GuzzleException;
 use SeBuDesign\BuckarooJson\Parts\CustomParameter;
 use \SeBuDesign\BuckarooJson\Parts\IpAddress;
 use \SeBuDesign\BuckarooJson\Parts\OriginalTransactionReference;
@@ -77,8 +78,9 @@ class Transaction extends RequestBase
      * Start the transaction
      *
      * @return TransactionResponse
+     * @throws GuzzleException
      */
-    public function start()
+    public function start(): TransactionResponse
     {
         return new TransactionResponse(
             $this->performRequest('Transaction', 'POST')
@@ -93,7 +95,7 @@ class Transaction extends RequestBase
      *
      * @return $this
      */
-    public function addCustomParameter($sName, $mValue)
+    public function addCustomParameter(string $sName, $mValue): Transaction
     {
         return $this->addParameter('CustomParameters', 'List', $sName, $mValue);
     }
@@ -105,7 +107,7 @@ class Transaction extends RequestBase
      *
      * @return boolean|CustomParameter
      */
-    public function getCustomParameter($sName)
+    public function getCustomParameter(string $sName)
     {
         return $this->getParameter('CustomParameters', 'List', $sName);
     }
@@ -117,9 +119,9 @@ class Transaction extends RequestBase
      *
      * @return boolean
      */
-    public function hasCustomParameter($sName)
+    public function hasCustomParameter(string $sName): bool
     {
-        return ( $this->getParameter('CustomParameters', 'List', $sName) !== false ? true : false );
+        return $this->getParameter('CustomParameters', 'List', $sName) !== false;
     }
 
     /**
@@ -166,9 +168,9 @@ class Transaction extends RequestBase
      *
      * @return boolean
      */
-    public function hasAdditionalParameter($sName)
+    public function hasAdditionalParameter(string $sName): bool
     {
-        return ( $this->getParameter('AdditionalParameters', 'AdditionalParameter', $sName) !== false ? true : false );
+        return $this->getParameter('AdditionalParameters', 'AdditionalParameter', $sName) !== false;
     }
 
     /**
@@ -176,9 +178,9 @@ class Transaction extends RequestBase
      *
      * @param string $sName The name of the custom additional to remove
      *
-     * @return $this|boolean
+     * @return $this
      */
-    public function removeAdditionalParameter($sName)
+    public function removeAdditionalParameter(string $sName): Transaction
     {
         return $this->removeParameter('AdditionalParameters', 'AdditionalParameter', $sName);
     }
@@ -190,7 +192,7 @@ class Transaction extends RequestBase
      *
      * @return $this
      */
-    public function addService($oService)
+    public function addService(Service $oService): Transaction
     {
         return $this->addParameter('Services', 'ServiceList', $oService);
     }
@@ -202,7 +204,7 @@ class Transaction extends RequestBase
      *
      * @return boolean|Service
      */
-    public function getService($sName)
+    public function getService(string $sName)
     {
         return $this->getParameter('Services', 'ServiceList', $sName);
     }
@@ -214,9 +216,9 @@ class Transaction extends RequestBase
      *
      * @return boolean
      */
-    public function hasService($sName)
+    public function hasService(string $sName): bool
     {
-        return ( $this->getParameter('Services', 'ServiceList', $sName) !== false ? true : false );
+        return $this->getParameter('Services', 'ServiceList', $sName) !== false;
     }
 
     /**
@@ -224,9 +226,9 @@ class Transaction extends RequestBase
      *
      * @param string $sName The name of the service object to remove
      *
-     * @return $this|boolean
+     * @return $this
      */
-    public function removeService($sName)
+    public function removeService(string $sName): Transaction
     {
         return $this->removeParameter('Services', 'ServiceList', $sName);
     }
@@ -241,7 +243,7 @@ class Transaction extends RequestBase
      *
      * @return $this
      */
-    protected function addParameter($sType, $sElement, $sName, $mValue = null)
+    protected function addParameter(string $sType, string $sElement, string $sName, $mValue = null): Transaction
     {
         $this->ensureDataObject();
 
@@ -279,7 +281,7 @@ class Transaction extends RequestBase
      *
      * @return boolean|CustomParameter|Service
      */
-    protected function getParameter($sType, $sElement, $sName)
+    protected function getParameter(string $sType, string $sElement, string $sName)
     {
         $this->ensureDataObject();
 
@@ -308,7 +310,7 @@ class Transaction extends RequestBase
      *
      * @return $this
      */
-    protected function removeParameter($sType, $sElement, $sName)
+    protected function removeParameter(string $sType, string $sElement, string $sName): Transaction
     {
         $this->ensureDataObject();
 
@@ -331,7 +333,7 @@ class Transaction extends RequestBase
      *
      * @return array
      */
-    public function toStringServicesModifier()
+    public function toStringServicesModifier(): array
     {
         $aServices = [
             'ServiceList' => []
@@ -359,7 +361,7 @@ class Transaction extends RequestBase
      *
      * @return array
      */
-    public function toStringCustomParametersModifier()
+    public function toStringCustomParametersModifier(): array
     {
         $aCustomParameters = [
             'List' => []
@@ -378,7 +380,7 @@ class Transaction extends RequestBase
      *
      * @return array
      */
-    public function toStringAdditionalParametersModifier()
+    public function toStringAdditionalParametersModifier(): array
     {
         $aParameters = [
             'AdditionalParameter' => []

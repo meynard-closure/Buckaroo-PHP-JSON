@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Parts;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Parts;
 
 use SeBuDesign\BuckarooJson\Partials\Data;
 
@@ -19,7 +21,7 @@ class IpAddress
     const IPv4 = 0;
     const IPv6 = 1;
 
-    public function setAddress($sAddress)
+    public function setAddress($sAddress): IpAddress
     {
         $this->ensureDataObject();
 

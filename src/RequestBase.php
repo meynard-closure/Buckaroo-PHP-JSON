@@ -1,6 +1,9 @@
-<?php namespace SeBuDesign\BuckarooJson;
+<?php
+
+namespace SeBuDesign\BuckarooJson;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use SeBuDesign\BuckarooJson\Partials\Data;
 
 class RequestBase
@@ -53,7 +56,7 @@ class RequestBase
      * @param string $sWebsiteKey The Buckaroo Website Key
      * @param string $sSecretKey  The Buckaroo Secret Key
      */
-    public function __construct($sWebsiteKey, $sSecretKey)
+    public function __construct(string $sWebsiteKey, string $sSecretKey)
     {
         $this->sWebsiteKey = $sWebsiteKey;
         $this->sSecretKey = $sSecretKey;
@@ -65,7 +68,7 @@ class RequestBase
      *
      * @return $this
      */
-    public function putInTestMode()
+    public function putInTestMode(): RequestBase
     {
         $this->bTesting = true;
         $this->aRequestData['base_uri'] = 'https://testcheckout.buckaroo.nl/json/';
@@ -81,7 +84,7 @@ class RequestBase
      *
      * @return $this
      */
-    public function addClientHeader($sHeaderKey, $sHeaderValue)
+    public function addClientHeader(string $sHeaderKey, string $sHeaderValue): RequestBase
     {
         $this->aRequestData['headers'][$sHeaderKey] = $sHeaderValue;
 
@@ -95,7 +98,7 @@ class RequestBase
      *
      * @return boolean
      */
-    public function hasClientHeader($sHeaderKey)
+    public function hasClientHeader(string $sHeaderKey): bool
     {
         return isset(
             $this->aRequestData['headers'],
@@ -110,7 +113,7 @@ class RequestBase
      *
      * @return mixed
      */
-    public function getClientHeader($sHeaderKey)
+    public function getClientHeader(string $sHeaderKey)
     {
         return (
             $this->hasClientHeader($sHeaderKey) ?
@@ -128,7 +131,7 @@ class RequestBase
      *
      * @return string
      */
-    protected function getAuthorizationHeader($sContent, $sCall, $sMethod)
+    protected function getAuthorizationHeader(string $sContent, string $sCall, string $sMethod): string
     {
         if (!empty($sContent)) {
             $sContent = base64_encode(
@@ -180,13 +183,14 @@ class RequestBase
     /**
      * Performs a request to the Buckaroo JSON API
      *
-     * @param string $sCall    The JSON call to perform
-     * @param string $sMethod  The method to use
-     * @param array  $aOptions The request options
+     * @param string $sCall The JSON call to perform
+     * @param string $sMethod The method to use
+     * @param array $aOptions The request options
      *
      * @return array
+     * @throws GuzzleException
      */
-    protected function performRequest($sCall, $sMethod = 'GET', $aOptions = [])
+    protected function performRequest(string $sCall, string $sMethod = 'GET', array $aOptions = []): array
     {
         $aOptions = array_merge($this->aRequestData, $aOptions);
 

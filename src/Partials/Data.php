@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Partials;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Partials;
 
 use stdClass;
 
@@ -13,11 +15,11 @@ trait Data
      * Dynamically set and get values
      *
      * @param string $sName      The name of the called function
-     * @param array  $aArguments The arguments passed to the function
+     * @param array $aArguments The arguments passed to the function
      *
      * @return $this|mixed
      */
-    public function __call($sName, $aArguments)
+    public function __call(string $sName, array $aArguments)
     {
         $this->ensureDataObject();
 
@@ -35,7 +37,7 @@ trait Data
 
                 $sName = str_replace('get', '', $sName);
 
-                return (isset($this->oData->{$sName}) ? $this->oData->{$sName} : false);
+                return ($this->oData->{$sName} ?? false);
             }
         }
     }

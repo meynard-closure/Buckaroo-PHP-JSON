@@ -1,5 +1,8 @@
-<?php namespace SeBuDesign\BuckarooJson;
+<?php
 
+namespace SeBuDesign\BuckarooJson;
+
+use GuzzleHttp\Exception\GuzzleException;
 use SeBuDesign\BuckarooJson\Responses\TransactionResponse;
 
 class TransactionStatus extends RequestBase
@@ -23,7 +26,7 @@ class TransactionStatus extends RequestBase
      *
      * @return bool
      */
-    public function hasKeyOrInvoice($sQuery)
+    public function hasKeyOrInvoice(string $sQuery): bool
     {
         $this->ensureTransactionsArray();
 
@@ -45,7 +48,7 @@ class TransactionStatus extends RequestBase
      *
      * @return $this
      */
-    public function addTransactionByKey($sTransactionKey)
+    public function addTransactionByKey(string $sTransactionKey): TransactionStatus
     {
         $this->ensureTransactionsArray();
 
@@ -63,7 +66,7 @@ class TransactionStatus extends RequestBase
      *
      * @return $this
      */
-    public function addTransactionByInvoice($sInvoice)
+    public function addTransactionByInvoice(string $sInvoice): TransactionStatus
     {
         $this->ensureTransactionsArray();
 
@@ -77,11 +80,12 @@ class TransactionStatus extends RequestBase
     /**
      * Get the transaction status
      *
-     * @param string $sTransactionKey The transaction key to get
+     * @param string|null $sTransactionKey The transaction key to get
      *
      * @return TransactionResponse | TransactionResponse[]
+     * @throws GuzzleException
      */
-    public function get($sTransactionKey = null)
+    public function get(string $sTransactionKey = null)
     {
         if (is_null($sTransactionKey)) {
             $aResponse = $this->performRequest('Transaction/Statuses', 'POST');

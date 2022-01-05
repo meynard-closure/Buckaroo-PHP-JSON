@@ -1,5 +1,9 @@
-<?php namespace SeBuDesign\BuckarooJson\Responses;
+<?php
 
+namespace SeBuDesign\BuckarooJson\Responses;
+
+use DateTime;
+use Exception;
 use SeBuDesign\BuckarooJson\Helpers\StatusCodeHelper;
 
 /**
@@ -31,7 +35,7 @@ class TransactionResponse
      *
      * @param array $aData The response data
      */
-    public function __construct($aData)
+    public function __construct(array $aData)
     {
         $this->aResponseData = $aData;
     }
@@ -56,7 +60,7 @@ class TransactionResponse
      *
      * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         $iCode = 0;
         if ($this->hasStatusCode()) {
@@ -114,7 +118,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    protected function hasStatusCode()
+    protected function hasStatusCode(): bool
     {
         return isset($this->aResponseData['Status'], $this->aResponseData['Status']['Code'], $this->aResponseData['Status']['Code']['Code']);
     }
@@ -124,7 +128,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    protected function hasStatusSubCode()
+    protected function hasStatusSubCode(): bool
     {
         return isset($this->aResponseData['Status'], $this->aResponseData['Status']['SubCode'], $this->aResponseData['Status']['SubCode']['Code']);
     }
@@ -132,13 +136,14 @@ class TransactionResponse
     /**
      * Get the date and time of the last status change
      *
-     * @return bool|\DateTime
+     * @return bool|DateTime
+     * @throws Exception
      */
     public function getDateTimeOfStatusChange()
     {
         $mDateTime = false;
         if (isset($this->aResponseData['Status'], $this->aResponseData['Status']['DateTime'])) {
-            $mDateTime = new \DateTime($this->aResponseData['Status']['DateTime']);
+            $mDateTime = new DateTime($this->aResponseData['Status']['DateTime']);
         }
 
         return $mDateTime;
@@ -149,7 +154,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    public function hasRequiredAction()
+    public function hasRequiredAction(): bool
     {
         return isset($this->aResponseData['RequiredAction']);
     }
@@ -159,7 +164,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    public function hasToRedirect()
+    public function hasToRedirect(): bool
     {
         $bHasToRedirect = false;
 
@@ -230,7 +235,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    public function hasToPayRemainder()
+    public function hasToPayRemainder(): bool
     {
         return (isset($this->aResponseData['RequiredAction']['PayRemainderDetails']) && !is_null($this->aResponseData['RequiredAction']['PayRemainderDetails']));
     }
@@ -240,7 +245,7 @@ class TransactionResponse
      *
      * @return float
      */
-    public function getRemainderAmount()
+    public function getRemainderAmount(): float
     {
         $fRemainderAmount = 0.0;
 
@@ -278,7 +283,7 @@ class TransactionResponse
      *
      * @return mixed
      */
-    protected function getPayRemainderDetail($sDetailKey)
+    protected function getPayRemainderDetail(string $sDetailKey)
     {
         $mValue = false;
 
@@ -297,7 +302,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    public function hasParameterType($sParameterType, $sList)
+    public function hasParameterType(string $sParameterType, string $sList): bool
     {
         return (isset($this->aResponseData[$sParameterType], $this->aResponseData[$sParameterType][$sList]) && is_array($this->aResponseData[$sParameterType][$sList]) && count($this->aResponseData[$sParameterType][$sList]) > 0);
     }
@@ -310,7 +315,7 @@ class TransactionResponse
      *
      * @return array
      */
-    public function getParametersFromType($sParameterType, $sList)
+    public function getParametersFromType(string $sParameterType, string $sList): array
     {
         $aParameters = [];
 
@@ -328,7 +333,7 @@ class TransactionResponse
      *
      * @return array
      */
-    public function getCustomParameters()
+    public function getCustomParameters(): array
     {
         return $this->getParametersFromType('CustomParameters', 'List');
     }
@@ -338,7 +343,7 @@ class TransactionResponse
      *
      * @return array
      */
-    public function getAdditionalParameters()
+    public function getAdditionalParameters(): array
     {
         return $this->getParametersFromType('AdditionalParameters', 'AdditionalParameter');
     }
@@ -350,7 +355,7 @@ class TransactionResponse
      *
      * @return bool|array
      */
-    public function getServiceParameters($sName)
+    public function getServiceParameters(string $sName)
     {
         $mResult = false;
 
@@ -369,7 +374,7 @@ class TransactionResponse
      *
      * @return bool|array
      */
-    public function getService($sName)
+    public function getService(string $sName)
     {
         $mResult = false;
 
@@ -388,7 +393,7 @@ class TransactionResponse
      *
      * @return array
      */
-    public function getServices()
+    public function getServices(): array
     {
         $aServices = [];
 
@@ -415,9 +420,9 @@ class TransactionResponse
      *
      * @return boolean|null
      */
-    public function isTest()
+    public function isTest(): ?bool
     {
-        return (isset($this->aResponseData['IsTest']) ? $this->aResponseData['IsTest'] : null);
+        return ($this->aResponseData['IsTest'] ?? null);
     }
 
     /**
@@ -425,7 +430,7 @@ class TransactionResponse
      *
      * @return array
      */
-    public function getRelatedTransactions()
+    public function getRelatedTransactions(): array
     {
         return (!isset($this->aResponseData['RelatedTransactions']) || is_null($this->aResponseData['RelatedTransactions']) ? [] : $this->aResponseData['RelatedTransactions']);
     }
@@ -435,7 +440,7 @@ class TransactionResponse
      *
      * @return boolean
      */
-    public function hasStartedRecurringPayment()
+    public function hasStartedRecurringPayment(): bool
     {
         return (!isset($this->aResponseData['StartRecurrent']) || is_null($this->aResponseData['StartRecurrent']) ? false : $this->aResponseData['StartRecurrent']);
     }
@@ -445,7 +450,7 @@ class TransactionResponse
      *
      * @return boolean
      */
-    public function isRecurringPayment()
+    public function isRecurringPayment(): bool
     {
         return (!isset($this->aResponseData['Recurring']) || is_null($this->aResponseData['Recurring']) ? false : $this->aResponseData['Recurring']);
     }
@@ -455,7 +460,7 @@ class TransactionResponse
      *
      * @return boolean
      */
-    public function isCancelable()
+    public function isCancelable(): bool
     {
         return (!isset($this->aResponseData['IsCancelable']) || is_null($this->aResponseData['IsCancelable']) ? false : $this->aResponseData['IsCancelable']);
     }
@@ -465,7 +470,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    public function hasConsumerMessage()
+    public function hasConsumerMessage(): bool
     {
         return (!isset($this->aResponseData['ConsumerMessage']) || is_null($this->aResponseData['ConsumerMessage']) ? false : true);
     }
@@ -475,7 +480,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    public function hasToReadConsumerMessage()
+    public function hasToReadConsumerMessage(): bool
     {
         $bHasToRead = false;
 
@@ -509,7 +514,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    public function hasErrorsFromType($sErrorType)
+    public function hasErrorsFromType(string $sErrorType): bool
     {
         return (
             isset($this->aResponseData['RequestErrors'], $this->aResponseData['RequestErrors'][$sErrorType]) &&
@@ -524,7 +529,7 @@ class TransactionResponse
      *
      * @return array
      */
-    public function getErrorsFromType($sErrorType)
+    public function getErrorsFromType(string $sErrorType): array
     {
         $aErrors = [];
 
@@ -540,7 +545,7 @@ class TransactionResponse
      *
      * @return array
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         $aErrors = array_merge(
             $this->getErrorsFromType('ChannelErrors'),
@@ -558,7 +563,7 @@ class TransactionResponse
      *
      * @return bool
      */
-    public function hasErrors()
+    public function hasErrors(): bool
     {
         $bErrors = false;
 
@@ -577,11 +582,11 @@ class TransactionResponse
      * Dynamically get values
      *
      * @param string $sName      The name of the called function
-     * @param array  $aArguments The arguments passed to the function
+     * @param array $aArguments The arguments passed to the function
      *
      * @return boolean|string|$this
      */
-    public function __call($sName, $aArguments)
+    public function __call(string $sName, array $aArguments)
     {
         // Check if the method exists in the class
         if (!method_exists($this, $sName)) {
@@ -590,7 +595,7 @@ class TransactionResponse
 
                 $sName = str_replace('get', '', $sName);
 
-                return (isset($this->aResponseData[$sName]) ? $this->aResponseData[$sName] : false);
+                return ($this->aResponseData[$sName] ?? false);
             }
         }
     }

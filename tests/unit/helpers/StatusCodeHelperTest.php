@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Tests;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Tests\Unit\Helpers;
 
 use SeBuDesign\BuckarooJson\Helpers\StatusCodeHelper;
 

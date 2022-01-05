@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Parts;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Parts;
 
 use SeBuDesign\BuckarooJson\Partials\Data;
 
@@ -23,14 +25,14 @@ class Service
     /**
      * Adds a service parameter
      *
-     * @param string       $sName      The name of the service parameter
+     * @param string $sName      The name of the service parameter
      * @param mixed        $mValue     The value of the service parameter
-     * @param null|integer $iGroupId   The group id of the service parameter
-     * @param null|string  $sGroupType The group type of the service parameter
+     * @param integer|null $iGroupId   The group id of the service parameter
+     * @param string|null $sGroupType The group type of the service parameter
      *
      * @return $this
      */
-    public function addParameter($sName, $mValue, $iGroupId = null, $sGroupType = null)
+    public function addParameter(string $sName, $mValue, int $iGroupId = null, string $sGroupType = null): Service
     {
         $this->ensureDataObject();
 
@@ -60,7 +62,7 @@ class Service
      *
      * @return boolean|ServiceParameter
      */
-    public function getParameter($sName)
+    public function getParameter(string $sName)
     {
         $this->ensureDataObject();
 
@@ -86,9 +88,9 @@ class Service
      *
      * @return boolean
      */
-    public function hasParameter($sName)
+    public function hasParameter(string $sName): bool
     {
-        return ( $this->getParameter($sName) === false ? false : true );
+        return !($this->getParameter($sName) === false);
     }
 
     /**
@@ -98,7 +100,7 @@ class Service
      *
      * @return $this
      */
-    public function removeParameter($sName)
+    public function removeParameter(string $sName): Service
     {
         $this->ensureDataObject();
 

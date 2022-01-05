@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Tests;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Tests\Unit\Transaction;
 
 use GuzzleHttp\Client;
 use SeBuDesign\BuckarooJson\Transaction;

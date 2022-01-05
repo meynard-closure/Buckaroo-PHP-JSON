@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Tests;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Tests\Integration;
 
 use SeBuDesign\BuckarooJson\Parts\Service;
 use SeBuDesign\BuckarooJson\Responses\TransactionResponse;

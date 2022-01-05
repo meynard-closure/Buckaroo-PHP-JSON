@@ -1,4 +1,6 @@
-<?php namespace SeBuDesign\BuckarooJson\Parts;
+<?php
+
+namespace SeBuDesign\BuckarooJson\Parts;
 
 use SeBuDesign\BuckarooJson\Partials\Data;
 
